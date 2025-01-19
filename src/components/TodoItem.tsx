@@ -5,6 +5,7 @@ import { Pencil, Trash2, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ImageUpload } from './ImageUpload';
 import { ImagePreviewModal } from './ImagePreviewModal';
+import confetti from 'canvas-confetti';
 
 interface TodoItemProps {
   todo: Todo;
@@ -16,6 +17,17 @@ export function TodoItem({ todo }: TodoItemProps) {
   const [editImageUrl, setEditImageUrl] = useState(todo.imageUrl);
   const [showImagePreview, setShowImagePreview] = useState(false);
   const { toggleTodo, deleteTodo, editTodo } = useTodoStore();
+
+  const handleToggle = () => {
+    toggleTodo(todo.id);
+    if (!todo.completed) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }
+  };
 
   const handleEdit = () => {
     if (editValue.trim()) {
@@ -36,7 +48,7 @@ export function TodoItem({ todo }: TodoItemProps) {
         <input
           type="checkbox"
           checked={todo.completed}
-          onChange={() => toggleTodo(todo.id)}
+          onChange={handleToggle}
           className="h-4 w-4 rounded border-primary"
         />
         {isEditing ? (
