@@ -29,6 +29,11 @@ vi.mock('@/lib/utils', () => ({
   cn: (...inputs: (string | undefined)[]) => inputs.filter(Boolean).join(' '),
 }));
 
+// canvas-confettiのモック
+vi.mock('canvas-confetti', () => ({
+  default: vi.fn(),
+}));
+
 // 各テスト後にクリーンアップ
 afterEach(() => {
   cleanup();
