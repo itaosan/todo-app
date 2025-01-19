@@ -3,8 +3,10 @@ import { expect, afterEach } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import matchers from '@testing-library/jest-dom/matchers';
 
+// RTLのマッチャーを拡張
 expect.extend(matchers);
 
+// 各テスト後にクリーンアップ
 afterEach(() => {
   cleanup();
 }); 
