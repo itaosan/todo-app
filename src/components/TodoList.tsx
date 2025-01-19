@@ -3,16 +3,19 @@ import { useTodoStore } from '@/store/todo';
 import { TodoItem } from './TodoItem';
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
+import { ImageUpload } from './ImageUpload';
 
 export function TodoList() {
   const [newTodo, setNewTodo] = useState('');
+  const [newImageUrl, setNewImageUrl] = useState<string>();
   const { todos, addTodo } = useTodoStore();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newTodo.trim()) {
-      addTodo(newTodo.trim());
+      addTodo(newTodo.trim(), newImageUrl);
       setNewTodo('');
+      setNewImageUrl(undefined);
     }
   };
 
@@ -26,6 +29,11 @@ export function TodoList() {
           onChange={(e) => setNewTodo(e.target.value)}
           placeholder="新しいタスクを入力..."
           className="flex-1 rounded-md bg-background px-3 py-2 border"
+        />
+        <ImageUpload
+          imageUrl={newImageUrl}
+          onImageUpload={(url) => setNewImageUrl(url)}
+          onImageRemove={() => setNewImageUrl(undefined)}
         />
         <Button type="submit">
           <Plus className="h-4 w-4 mr-2" />

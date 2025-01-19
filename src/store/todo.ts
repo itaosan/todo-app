@@ -5,19 +5,20 @@ export interface Todo {
   title: string;
   completed: boolean;
   createdAt: Date;
+  imageUrl?: string;
 }
 
 interface TodoStore {
   todos: Todo[];
-  addTodo: (title: string) => void;
+  addTodo: (title: string, imageUrl?: string) => void;
   toggleTodo: (id: string) => void;
   deleteTodo: (id: string) => void;
-  editTodo: (id: string, title: string) => void;
+  editTodo: (id: string, title: string, imageUrl?: string) => void;
 }
 
 export const useTodoStore = create<TodoStore>((set) => ({
   todos: [],
-  addTodo: (title) =>
+  addTodo: (title, imageUrl) =>
     set((state) => ({
       todos: [
         ...state.todos,
@@ -26,6 +27,7 @@ export const useTodoStore = create<TodoStore>((set) => ({
           title,
           completed: false,
           createdAt: new Date(),
+          imageUrl,
         },
       ],
     })),
@@ -39,10 +41,10 @@ export const useTodoStore = create<TodoStore>((set) => ({
     set((state) => ({
       todos: state.todos.filter((todo) => todo.id !== id),
     })),
-  editTodo: (id, title) =>
+  editTodo: (id, title, imageUrl) =>
     set((state) => ({
       todos: state.todos.map((todo) =>
-        todo.id === id ? { ...todo, title } : todo
+        todo.id === id ? { ...todo, title, imageUrl: imageUrl ?? todo.imageUrl } : todo
       ),
     })),
 })); 
