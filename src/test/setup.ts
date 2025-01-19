@@ -30,7 +30,9 @@ vi.mock('@/lib/utils', () => ({
 }));
 
 // canvas-confettiのモック
-vi.mock('canvas-confetti', () => vi.fn());
+vi.mock('canvas-confetti', () => ({
+  default: vi.fn()
+}));
 
 // 各テスト後にクリーンアップ
 afterEach(() => {
