@@ -3,7 +3,6 @@ import { expect, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import * as matchers from '@testing-library/jest-dom/matchers';
 import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
-import 'jest-canvas-mock';
 
 declare module 'vitest' {
   interface Assertion<T> extends TestingLibraryMatchers<typeof expect.stringContaining, T> {
@@ -35,30 +34,40 @@ vi.mock('canvas-confetti', () => ({
   default: vi.fn(() => Promise.resolve())
 }));
 
-// HTMLCanvasElementのモック
-vi.stubGlobal('HTMLCanvasElement', {
-  prototype: {
-    getContext: vi.fn(() => ({
-      canvas: {},
-      fillStyle: '',
-      fillRect: vi.fn(),
-      clearRect: vi.fn(),
-      getImageData: vi.fn(() => ({ data: new Uint8Array() })),
-      putImageData: vi.fn(),
-      createImageData: vi.fn(),
-      setTransform: vi.fn(),
-      drawImage: vi.fn(),
-      save: vi.fn(),
-      restore: vi.fn(),
-      scale: vi.fn(),
-      rotate: vi.fn(),
-      translate: vi.fn(),
-      transform: vi.fn(),
-      globalCompositeOperation: '',
-      globalAlpha: 1,
-    })),
+// グローバルなcanvasモックの設定
+const createContext2DMock = () => ({
+  canvas: {
+    width: 100,
+    height: 100,
   },
+  fillStyle: '',
+  fillRect: vi.fn(),
+  clearRect: vi.fn(),
+  getImageData: vi.fn(() => ({ data: new Uint8Array() })),
+  putImageData: vi.fn(),
+  createImageData: vi.fn(),
+  setTransform: vi.fn(),
+  drawImage: vi.fn(),
+  save: vi.fn(),
+  restore: vi.fn(),
+  scale: vi.fn(),
+  rotate: vi.fn(),
+  translate: vi.fn(),
+  transform: vi.fn(),
+  globalCompositeOperation: '',
+  globalAlpha: 1,
 });
+
+class CanvasMock {
+  getContext(contextId: string) {
+    if (contextId === '2d') {
+      return createContext2DMock();
+    }
+    return null;
+  }
+}
+
+vi.stubGlobal('HTMLCanvasElement', CanvasMock);
 
 // 各テスト後にクリーンアップ
 afterEach(() => {
