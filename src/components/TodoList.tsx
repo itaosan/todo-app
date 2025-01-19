@@ -8,7 +8,7 @@ import { Button } from './ui/button';
 export function TodoList() {
   const [newTodo, setNewTodo] = useState('');
   const [newImageUrl, setNewImageUrl] = useState<string>();
-  const { todos, addTodo } = useTodoStore();
+  const { todos, addTodo, toggleTodo, deleteTodo, editTodo, uploadImage, removeImage } = useTodoStore();
 
   const handleImageUpload = async (file: File) => {
     // TODO: 実際のアップロード処理を実装する
@@ -56,7 +56,23 @@ export function TodoList() {
         ) : (
           todos
             .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-            .map((todo) => <TodoItem key={todo.id} todo={todo} />)
+            .map((todo) => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onToggle={toggleTodo}
+                onDelete={deleteTodo}
+                onEdit={editTodo}
+                onImageUpload={(id, file) => {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    uploadImage(id, reader.result as string);
+                  };
+                  reader.readAsDataURL(file);
+                }}
+                onImageRemove={removeImage}
+              />
+            ))
         )}
       </div>
     </div>
