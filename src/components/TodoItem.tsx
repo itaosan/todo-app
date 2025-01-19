@@ -1,9 +1,9 @@
 import type { Todo } from '@/store/todo';
 import { Check, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { Button } from './ui/button';
 import { ImagePreviewModal } from './ImagePreviewModal';
 import { ImageUpload } from './ImageUpload';
+import { Button } from './ui/button';
 
 interface TodoItemProps {
   todo: Todo;
