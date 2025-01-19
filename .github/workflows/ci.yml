@@ -39,8 +39,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Install canvas-mock
+        run: pnpm add -D canvas jest-canvas-mock
+
       - name: Run tests
         run: pnpm test
+        env:
+          NODE_ENV: test
 
       - name: Run lint
         run: pnpm lint
