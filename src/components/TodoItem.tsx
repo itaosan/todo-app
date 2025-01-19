@@ -18,13 +18,21 @@ export function TodoItem({ todo }: TodoItemProps) {
   const [showImagePreview, setShowImagePreview] = useState(false);
   const { toggleTodo, deleteTodo, editTodo } = useTodoStore();
 
-  const handleToggle = () => {
+  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     toggleTodo(todo.id);
     if (!todo.completed) {
+      const checkbox = event.target;
+      const rect = checkbox.getBoundingClientRect();
+      const x = (rect.left + rect.width / 2) / window.innerWidth;
+      const y = (rect.top + rect.height / 2) / window.innerHeight;
+      
       confetti({
         particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
+        spread: 60,
+        origin: { x, y },
+        gravity: 2,
+        scalar: 0.7,
+        ticks: 100
       });
     }
   };
