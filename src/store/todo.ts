@@ -45,20 +45,14 @@ export const useTodoStore = create<TodoStore>((set) => ({
     })),
   editTodo: (id, title) =>
     set((state) => ({
-      todos: state.todos.map((todo) =>
-        todo.id === id ? { ...todo, title } : todo
-      ),
+      todos: state.todos.map((todo) => (todo.id === id ? { ...todo, title } : todo)),
     })),
   uploadImage: (id, imageUrl) =>
     set((state) => ({
-      todos: state.todos.map((todo) =>
-        todo.id === id ? { ...todo, imageUrl } : todo
-      ),
+      todos: state.todos.map((todo) => (todo.id === id ? { ...todo, imageUrl } : todo)),
     })),
   removeImage: (id) =>
     set((state) => ({
-      todos: state.todos.map((todo) =>
-        todo.id === id ? { ...todo, imageUrl: undefined } : todo
-      ),
+      todos: state.todos.map((todo) => (todo.id === id ? { ...todo, imageUrl: undefined } : todo)),
     })),
 }));

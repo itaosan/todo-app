@@ -8,7 +8,15 @@ import { Button } from './ui/button';
 export function TodoList() {
   const [newTodo, setNewTodo] = useState('');
   const [newImageUrl, setNewImageUrl] = useState<string>();
-  const { todos, addTodo, toggleTodo, deleteTodo, editTodo, uploadImage, removeImage } = useTodoStore();
+  const {
+    todos,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    editTodo,
+    uploadImage,
+    removeImage,
+  } = useTodoStore();
 
   const handleImageUpload = async (file: File) => {
     // TODO: 実際のアップロード処理を実装する
