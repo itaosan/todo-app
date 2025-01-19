@@ -47,4 +47,4 @@ export const useTodoStore = create<TodoStore>((set) => ({
         todo.id === id ? { ...todo, title, imageUrl: imageUrl ?? todo.imageUrl } : todo
       ),
     })),
-})); 
+}));

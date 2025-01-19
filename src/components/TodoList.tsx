@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { useTodoStore } from '@/store/todo';
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import { ImageUpload } from './ImageUpload';
 import { TodoItem } from './TodoItem';
 import { Button } from './ui/button';
-import { Plus } from 'lucide-react';
-import { ImageUpload } from './ImageUpload';
 
 export function TodoList() {
   const [newTodo, setNewTodo] = useState('');
@@ -42,9 +42,7 @@ export function TodoList() {
       </form>
       <div className="space-y-2">
         {todos.length === 0 ? (
-          <p className="text-center text-muted-foreground">
-            タスクがありません
-          </p>
+          <p className="text-center text-muted-foreground">タスクがありません</p>
         ) : (
           todos
             .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
@@ -53,4 +51,4 @@ export function TodoList() {
       </div>
     </div>
   );
-} 
+}

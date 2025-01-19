@@ -1,8 +1,8 @@
-import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Button } from '../Button';
 import React from 'react';
+import { describe, expect, it, vi } from 'vitest';
+import { Button } from '../Button';
 
 describe('Button', () => {
   it('renders children correctly', () => {
@@ -13,7 +13,7 @@ describe('Button', () => {
   it('handles click events', async () => {
     const handleClick = vi.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
-    
+
     await userEvent.click(screen.getByRole('button'));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
@@ -50,4 +50,4 @@ describe('Button', () => {
     render(<Button disabled>Disabled button</Button>);
     expect(screen.getByRole('button')).toBeDisabled();
   });
-}); 
+});

@@ -1,6 +1,6 @@
-import { ChangeEvent, useRef } from 'react';
-import { Button } from './ui/button';
 import { ImagePlus, X } from 'lucide-react';
+import { type ChangeEvent, useRef } from 'react';
+import { Button } from './ui/button';
 
 interface ImageUploadProps {
   imageUrl?: string;
@@ -26,11 +26,7 @@ export function ImageUpload({ imageUrl, onImageUpload, onImageRemove }: ImageUpl
     <div className="flex items-center gap-2">
       {imageUrl ? (
         <div className="relative group">
-          <img
-            src={imageUrl}
-            alt="Uploaded"
-            className="w-16 h-16 object-cover rounded-md"
-          />
+          <img src={imageUrl} alt="Uploaded" className="w-16 h-16 object-cover rounded-md" />
           <button
             onClick={onImageRemove}
             className="absolute top-0 right-0 p-1 bg-destructive text-destructive-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
@@ -57,4 +53,4 @@ export function ImageUpload({ imageUrl, onImageUpload, onImageRemove }: ImageUpl
       />
     </div>
   );
-} 
+}

@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { Todo, useTodoStore } from '@/store/todo';
-import { Button } from './ui/button';
-import { Pencil, Trash2, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ImageUpload } from './ImageUpload';
+import { type Todo, useTodoStore } from '@/store/todo';
+import { Check, Pencil, Trash2, X } from 'lucide-react';
+import { useState } from 'react';
 import { ImagePreviewModal } from './ImagePreviewModal';
+import { ImageUpload } from './ImageUpload';
+import { Button } from './ui/button';
 
 interface TodoItemProps {
   todo: Todo;
@@ -64,10 +64,7 @@ export function TodoItem({ todo }: TodoItemProps) {
           <>
             <div className="flex-1 flex items-center gap-2">
               <span
-                className={cn(
-                  'flex-1',
-                  todo.completed && 'line-through text-muted-foreground'
-                )}
+                className={cn('flex-1', todo.completed && 'line-through text-muted-foreground')}
               >
                 {todo.title}
               </span>
@@ -80,18 +77,10 @@ export function TodoItem({ todo }: TodoItemProps) {
                 />
               )}
             </div>
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => setIsEditing(true)}
-            >
+            <Button size="icon" variant="ghost" onClick={() => setIsEditing(true)}>
               <Pencil className="h-4 w-4" />
             </Button>
-            <Button
-              size="icon"
-              variant="ghost"
-              onClick={() => deleteTodo(todo.id)}
-            >
+            <Button size="icon" variant="ghost" onClick={() => deleteTodo(todo.id)}>
               <Trash2 className="h-4 w-4" />
             </Button>
           </>
@@ -106,4 +95,4 @@ export function TodoItem({ todo }: TodoItemProps) {
       )}
     </>
   );
-} 
+}
