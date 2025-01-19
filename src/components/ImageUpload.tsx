@@ -1,6 +1,5 @@
-import { ImagePlus, X } from 'lucide-react';
-import { type ChangeEvent, useRef, useState } from 'react';
-import { Button } from './ui/button';
+import { X } from 'lucide-react';
+import { type ChangeEvent, useState } from 'react';
 
 interface ImageUploadProps {
   imageUrl?: string;
@@ -9,7 +8,6 @@ interface ImageUploadProps {
 }
 
 export function ImageUpload({ imageUrl, onImageUpload, onImageRemove }: ImageUploadProps) {
-  const _inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragEnter = (e: React.DragEvent) => {

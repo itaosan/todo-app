@@ -10,6 +10,16 @@ export function TodoList() {
   const [newImageUrl, setNewImageUrl] = useState<string>();
   const { todos, addTodo } = useTodoStore();
 
+  const handleImageUpload = async (file: File) => {
+    // TODO: 実際のアップロード処理を実装する
+    // 一時的にDataURLとして扱う
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setNewImageUrl(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newTodo.trim()) {
@@ -32,7 +42,7 @@ export function TodoList() {
         />
         <ImageUpload
           imageUrl={newImageUrl}
-          onImageUpload={(url) => setNewImageUrl(url)}
+          onImageUpload={handleImageUpload}
           onImageRemove={() => setNewImageUrl(undefined)}
         />
         <Button type="submit">
