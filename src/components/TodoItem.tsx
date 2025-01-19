@@ -91,6 +91,7 @@ export function TodoItem({ todo }: TodoItemProps) {
               size="icon"
               variant="ghost"
               onClick={() => deleteTodo(todo.id)}
+              data-testid="delete-button"
             >
               <Trash2 className="h-4 w-4" />
             </Button>
