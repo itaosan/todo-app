@@ -5,7 +5,7 @@ import { Pencil, Trash2, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ImageUpload } from './ImageUpload';
 import { ImagePreviewModal } from './ImagePreviewModal';
-import * as confetti from 'canvas-confetti';
+import confetti from 'canvas-confetti';
 
 interface TodoItemProps {
   todo: Todo;
@@ -26,7 +26,7 @@ export function TodoItem({ todo }: TodoItemProps) {
       const x = (rect.left + rect.width / 2) / window.innerWidth;
       const y = (rect.top + rect.height / 2) / window.innerHeight;
       
-      confetti.default({
+      confetti({
         particleCount: 100,
         spread: 60,
         origin: { x, y },
