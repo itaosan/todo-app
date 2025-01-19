@@ -9,7 +9,7 @@ interface ImageUploadProps {
 }
 
 export function ImageUpload({ imageUrl, onImageUpload, onImageRemove }: ImageUploadProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const _inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragEnter = (e: React.DragEvent) => {
@@ -25,7 +25,7 @@ export function ImageUpload({ imageUrl, onImageUpload, onImageRemove }: ImageUpl
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file?.type.startsWith('image/')) {
       onImageUpload(file);
     }
   };

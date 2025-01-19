@@ -1,7 +1,7 @@
 import { Check, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { ImageUpload } from './ImageUpload';
 import { ImagePreviewModal } from './ImagePreviewModal';
+import { ImageUpload } from './ImageUpload';
 import { Button } from './ui/button';
 
 interface TodoItemProps {
@@ -76,9 +76,7 @@ export function TodoItem({
             </Button>
             <div className="flex flex-1 items-center gap-2">
               <span
-                className={`flex-1 ${
-                  todo.completed ? 'line-through text-muted-foreground' : ''
-                }`}
+                className={`flex-1 ${todo.completed ? 'line-through text-muted-foreground' : ''}`}
               >
                 {todo.title}
               </span>
