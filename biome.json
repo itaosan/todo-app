@@ -35,5 +35,8 @@
     "parser": {
       "allowComments": true
     }
+  },
+  "files": {
+    "ignore": ["dist/**/*", "node_modules/**/*"]
   }
 }
