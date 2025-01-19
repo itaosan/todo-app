@@ -1,94 +1,131 @@
-import { cn } from '@/lib/utils';
-import { type Todo, useTodoStore } from '@/store/todo';
-import { Check, Pencil, Trash2, X } from 'lucide-react';
+import { Check, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { ImagePreviewModal } from './ImagePreviewModal';
 import { ImageUpload } from './ImageUpload';
+import { ImagePreviewModal } from './ImagePreviewModal';
 import { Button } from './ui/button';
 
 interface TodoItemProps {
-  todo: Todo;
+  todo: {
+    id: string;
+    title: string;
+    completed: boolean;
+    imageUrl?: string;
+  };
+  onToggle: (id: string) => void;
+  onDelete: (id: string) => void;
+  onEdit: (id: string, newTitle: string) => void;
+  onImageUpload: (id: string, file: File) => void;
+  onImageRemove: (id: string) => void;
 }
 
-export function TodoItem({ todo }: TodoItemProps) {
+export function TodoItem({
+  todo,
+  onToggle,
+  onDelete,
+  onEdit,
+  onImageUpload,
+  onImageRemove,
+}: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(todo.title);
-  const [editImageUrl, setEditImageUrl] = useState(todo.imageUrl);
   const [showImagePreview, setShowImagePreview] = useState(false);
-  const { toggleTodo, deleteTodo, editTodo } = useTodoStore();
 
-  const handleEdit = () => {
+  const handleSubmit = () => {
     if (editValue.trim()) {
-      editTodo(todo.id, editValue, editImageUrl);
+      onEdit(todo.id, editValue);
       setIsEditing(false);
     }
   };
 
-  const handleCancel = () => {
-    setEditValue(todo.title);
-    setEditImageUrl(todo.imageUrl);
-    setIsEditing(false);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    } else if (e.key === 'Escape') {
+      setIsEditing(false);
+      setEditValue(todo.title);
+    }
   };
 
   return (
     <>
-      <div className="flex items-center gap-2 p-4 bg-card rounded-lg border">
-        <input
-          type="checkbox"
-          checked={todo.completed}
-          onChange={() => toggleTodo(todo.id)}
-          className="h-4 w-4 rounded border-primary"
-        />
+      <div className="flex items-center gap-2 p-2 hover:bg-accent rounded-lg group">
         {isEditing ? (
-          <div className="flex-1 flex gap-2">
+          <div className="flex flex-1 items-center gap-2">
             <input
-              type="text"
               value={editValue}
               onChange={(e) => setEditValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onBlur={handleSubmit}
               className="flex-1 rounded-md bg-background px-2 py-1 border"
-              autoFocus
             />
             <ImageUpload
-              imageUrl={editImageUrl}
-              onImageUpload={(url) => setEditImageUrl(url)}
-              onImageRemove={() => setEditImageUrl(undefined)}
+              imageUrl={todo.imageUrl}
+              onImageUpload={(file) => onImageUpload(todo.id, file)}
+              onImageRemove={() => onImageRemove(todo.id)}
             />
-            <Button size="icon" variant="ghost" onClick={handleEdit}>
-              <Check className="h-4 w-4" />
-            </Button>
-            <Button size="icon" variant="ghost" onClick={handleCancel}>
-              <X className="h-4 w-4" />
-            </Button>
           </div>
         ) : (
           <>
-            <div className="flex-1 flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onToggle(todo.id)}
+              className={todo.completed ? 'text-primary' : 'text-muted-foreground'}
+            >
+              <Check className="h-4 w-4" />
+            </Button>
+            <div className="flex flex-1 items-center gap-2">
               <span
-                className={cn('flex-1', todo.completed && 'line-through text-muted-foreground')}
+                className={`flex-1 ${
+                  todo.completed ? 'line-through text-muted-foreground' : ''
+                }`}
               >
                 {todo.title}
               </span>
               {todo.imageUrl && (
-                <img
-                  src={todo.imageUrl}
-                  alt={todo.title}
-                  className="w-12 h-12 object-cover rounded-md cursor-pointer hover:opacity-80 transition-opacity"
+                <button
+                  type="button"
                   onClick={() => setShowImagePreview(true)}
-                />
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setShowImagePreview(true);
+                    }
+                  }}
+                  className="w-12 h-12 p-0 border-0 bg-transparent cursor-pointer"
+                  aria-label={`Preview image for ${todo.title}`}
+                >
+                  <img
+                    src={todo.imageUrl}
+                    alt={todo.title}
+                    className="w-full h-full object-cover rounded-md hover:opacity-80 transition-opacity"
+                  />
+                </button>
               )}
             </div>
-            <Button size="icon" variant="ghost" onClick={() => setIsEditing(true)}>
-              <Pencil className="h-4 w-4" />
-            </Button>
-            <Button size="icon" variant="ghost" onClick={() => deleteTodo(todo.id)}>
-              <Trash2 className="h-4 w-4" />
-            </Button>
+            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsEditing(true)}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => onDelete(todo.id)}
+                className="text-muted-foreground hover:text-destructive"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
           </>
         )}
       </div>
-      {showImagePreview && todo.imageUrl && (
+      {showImagePreview && (
         <ImagePreviewModal
-          imageUrl={todo.imageUrl}
+          imageUrl={todo.imageUrl || ''}
           alt={todo.title}
           onClose={() => setShowImagePreview(false)}
         />

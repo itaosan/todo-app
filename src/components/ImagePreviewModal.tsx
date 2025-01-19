@@ -1,5 +1,5 @@
 import { X } from 'lucide-react';
-import { KeyboardEvent } from 'react';
+import type { KeyboardEvent } from 'react';
 
 interface ImagePreviewModalProps {
   imageUrl: string;
@@ -15,13 +15,12 @@ export function ImagePreviewModal({ imageUrl, alt, onClose }: ImagePreviewModalP
   };
 
   return (
-    <div
+    <dialog
       className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center"
       onClick={onClose}
       onKeyDown={handleKeyDown}
-      role="dialog"
       aria-modal="true"
-      tabIndex={0}
+      open
     >
       <div className="relative max-w-3xl max-h-[90vh] p-4">
         <button
@@ -38,9 +37,8 @@ export function ImagePreviewModal({ imageUrl, alt, onClose }: ImagePreviewModalP
           className="max-w-full max-h-[85vh] object-contain rounded-lg"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
-          tabIndex={0}
         />
       </div>
-    </div>
+    </dialog>
   );
 }
