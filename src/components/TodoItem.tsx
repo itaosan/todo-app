@@ -1,16 +1,12 @@
 import { Check, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { type Todo } from '@/store/todo';
 import { ImagePreviewModal } from './ImagePreviewModal';
 import { ImageUpload } from './ImageUpload';
 import { Button } from './ui/button';
 
 interface TodoItemProps {
-  todo: {
-    id: string;
-    title: string;
-    completed: boolean;
-    imageUrl?: string;
-  };
+  todo: Todo;
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
   onEdit: (id: string, newTitle: string) => void;
